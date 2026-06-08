@@ -23,6 +23,8 @@ mesas = []
 totais = []
 status = []
 
+pedidos = []
+
 numero_comanda = 1
 
 while True:
@@ -31,9 +33,10 @@ while True:
     print("1 - Fazer pedido")
     print("2 - Abrir comanda")
     print("3 - Fechar comanda")
-    print("4 - Aplicar desconto/gorjeta")
-    print("5 - Relatório da noite")
-    print("6 - Sair")
+    print("4 - Visualizar comanda")
+    print("5 - Aplicar desconto/gorjeta")
+    print("6 - Relatório da noite")
+    print("7 - Sair")
 
     try:
       restaurante = int(input("Escolha uma opção: "))
@@ -55,6 +58,8 @@ while True:
         mesas.append(mesa)
         totais.append(0)
         status.append("Aberta")
+        
+        pedidos.append([]) 
 
         print(f"Comanda {numero_comanda} aberta!")
 
@@ -122,6 +127,32 @@ while True:
 
                 total_pedido = valor_porcao + valor_bebida
 
+                descricao = ""
+
+                if porcao == 1:
+                   descricao += "Batata Canoa"
+
+                elif porcao == 2:
+                   descricao += "Batata Palito"
+
+                elif porcao == 3:
+                   descricao += "Iscas de Frango"
+
+                elif porcao == 4:
+                  descricao += "Peixe Empanado"
+
+
+                if bebida == 5:
+                  descricao += " + Refrigerante"
+
+                elif bebida == 6:
+                  descricao += " + Suco Natural"
+
+                elif bebida == 7:
+                  descricao += " + Água"
+
+                pedidos[indice].append(descricao)
+
                 totais[indice] += total_pedido
 
                 print(f"Pedido adicionado!")
@@ -151,21 +182,54 @@ while True:
             status[indice] = "Fechada"
 
             print("Comanda fechada!")
+            print("\nPedidos:")
 
+            for pedido in pedidos[indice]:
+             print("-", pedido)
         else:
             print("Comanda não encontrada!")
+
+    # ==========================
+    # VISUALIZAR COMANDA
+    # ==========================
+
+    elif restaurante == 4:
+        numero = int(input("Número da comanda: "))
+
+        if numero in numeros:
+
+           indice = numeros.index(numero)
+
+           print(f"Cliente: {clientes[indice]}")
+           print(f"Mesa: {mesas[indice]}")
+           print(f"Status: {status[indice]}")
+
+           print("\nPedidos:")
+
+           for pedido in pedidos[indice]:
+               print("-", pedido)
+
+           print(f"\nTotal: R$ {totais[indice]:.2f}")
+  
+        else:
+          print("Comanda não encontrada!")    
+
 
     # ==========================
     # DESCONTO OU GORJETA
     # ==========================
 
-    elif restaurante == 4:
+    elif restaurante == 5:
 
         numero = int(input("Número da comanda: "))
 
         if numero in numeros:
 
-            indice = numeros.index(numero)
+            indice = numeros.index(numero) 
+            
+            if status[indice] == "Fechada":
+             print("Comanda já fechada!")
+             continue
 
             print("1 - Desconto")
             print("2 - Gorjeta")
@@ -203,7 +267,7 @@ while True:
     # RELATÓRIO
     # ==========================
 
-    elif restaurante == 5:
+    elif restaurante == 6:
 
         faturamento = 0
         quantidade = 0
@@ -239,7 +303,7 @@ while True:
     # SAIR
     # ==========================
 
-    elif restaurante == 6:
+    elif restaurante == 7:
 
         print("Sistema encerrado!")
         break
